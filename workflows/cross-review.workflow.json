@@ -1,0 +1,128 @@
+{
+  "version": 1,
+  "revision_limit": 2,
+  "human_approval_actor": "authorized_tax_professional",
+  "authorized_reviewers": [],
+  "states": [
+    "NEW",
+    "INTAKE_PENDING",
+    "READY_FOR_DRAFT",
+    "DRAFTED",
+    "INDEPENDENT_REVIEW_IN_PROGRESS",
+    "INCOMPLETE",
+    "INDEPENDENTLY_REVIEWED",
+    "REVIEW_ISSUED",
+    "REVISION_REQUIRED",
+    "REVISED",
+    "CROSS_REVIEW_APPROVED",
+    "CROSS_REVIEW_CONDITIONAL",
+    "CROSS_REVIEW_REJECTED",
+    "HUMAN_JUDGMENT_REQUIRED",
+    "HUMAN_REVIEW_REQUIRED",
+    "HUMAN_APPROVED",
+    "HUMAN_REJECTED",
+    "MORE_INFO_REQUIRED",
+    "READY_FOR_ACTION",
+    "BLOCKED_MISSING_FACTS",
+    "BLOCKED_SOURCE_UNAVAILABLE",
+    "BLOCKED_CALCULATION_MISMATCH",
+    "BLOCKED_UNMASKED_PII",
+    "BLOCKED_UNLAWFUL_REQUEST"
+  ],
+  "transitions": [
+    {"from": "NEW", "to": "INTAKE_PENDING", "actors": ["coordinator"]},
+    {"from": "INTAKE_PENDING", "to": "READY_FOR_DRAFT", "actors": ["coordinator"]},
+    {"from": "INTAKE_PENDING", "to": "BLOCKED_MISSING_FACTS", "actors": ["coordinator"]},
+    {"from": "INTAKE_PENDING", "to": "BLOCKED_UNMASKED_PII", "actors": ["coordinator"]},
+    {"from": "INTAKE_PENDING", "to": "BLOCKED_UNLAWFUL_REQUEST", "actors": ["coordinator"]},
+    {"from": "READY_FOR_DRAFT", "to": "DRAFTED", "actors": ["tax-preparer"]},
+    {"from": "DRAFTED", "to": "INCOMPLETE", "actors": ["tax-preparer"]},
+    {"from": "INCOMPLETE", "to": "INTAKE_PENDING", "actors": ["coordinator"]},
+    {"from": "DRAFTED", "to": "BLOCKED_SOURCE_UNAVAILABLE", "actors": ["coordinator"]},
+    {"from": "DRAFTED", "to": "BLOCKED_CALCULATION_MISMATCH", "actors": ["coordinator"]},
+    {"from": "DRAFTED", "to": "INDEPENDENT_REVIEW_IN_PROGRESS", "actors": ["coordinator"]},
+    {"from": "INDEPENDENT_REVIEW_IN_PROGRESS", "to": "INDEPENDENTLY_REVIEWED", "actors": ["tax-reviewer"]},
+    {"from": "INDEPENDENTLY_REVIEWED", "to": "REVIEW_ISSUED", "actors": ["tax-reviewer"]},
+    {"from": "REVIEW_ISSUED", "to": "REVISION_REQUIRED", "actors": ["coordinator"]},
+    {"from": "REVIEW_ISSUED", "to": "CROSS_REVIEW_APPROVED", "actors": ["tax-reviewer"]},
+    {"from": "REVIEW_ISSUED", "to": "CROSS_REVIEW_CONDITIONAL", "actors": ["tax-reviewer"]},
+    {"from": "REVIEW_ISSUED", "to": "CROSS_REVIEW_REJECTED", "actors": ["tax-reviewer"]},
+    {"from": "REVIEW_ISSUED", "to": "HUMAN_JUDGMENT_REQUIRED", "actors": ["tax-reviewer", "coordinator"]},
+    {"from": "REVISION_REQUIRED", "to": "REVISED", "actors": ["tax-preparer"]},
+    {"from": "REVISED", "to": "REVIEW_ISSUED", "actors": ["tax-reviewer"]},
+    {"from": "REVISED", "to": "CROSS_REVIEW_APPROVED", "actors": ["tax-reviewer"]},
+    {"from": "REVISED", "to": "CROSS_REVIEW_CONDITIONAL", "actors": ["tax-reviewer"]},
+    {"from": "REVISED", "to": "CROSS_REVIEW_REJECTED", "actors": ["tax-reviewer"]},
+    {"from": "REVISED", "to": "HUMAN_JUDGMENT_REQUIRED", "actors": ["tax-reviewer", "coordinator"]},
+    {"from": "CROSS_REVIEW_APPROVED", "to": "HUMAN_REVIEW_REQUIRED", "actors": ["coordinator"]},
+    {"from": "CROSS_REVIEW_CONDITIONAL", "to": "HUMAN_REVIEW_REQUIRED", "actors": ["coordinator"]},
+    {"from": "HUMAN_JUDGMENT_REQUIRED", "to": "HUMAN_REVIEW_REQUIRED", "actors": ["coordinator"]},
+    {"from": "HUMAN_REVIEW_REQUIRED", "to": "HUMAN_APPROVED", "actors": ["authorized_tax_professional"]},
+    {"from": "HUMAN_REVIEW_REQUIRED", "to": "HUMAN_REJECTED", "actors": ["authorized_tax_professional"]},
+    {"from": "HUMAN_REVIEW_REQUIRED", "to": "MORE_INFO_REQUIRED", "actors": ["authorized_tax_professional"]},
+    {"from": "MORE_INFO_REQUIRED", "to": "INTAKE_PENDING", "actors": ["coordinator"]},
+    {"from": "HUMAN_APPROVED", "to": "READY_FOR_ACTION", "actors": ["coordinator"]}
+  ],
+  "artifact_visibility": {
+    "BLIND_REVIEW": {
+      "tax-reviewer": [
+        "case-packet.json"
+      ]
+    },
+    "COMPARISON_REVIEW": {
+      "tax-reviewer": [
+        "case-packet.json",
+        "independent-review.json",
+        "draft-opinion.json"
+      ]
+    },
+    "FINAL_REVIEW": {
+      "tax-reviewer": [
+        "case-packet.json",
+        "independent-review.json",
+        "draft-opinion.json",
+        "review-memo.json",
+        "response-matrix.json"
+      ]
+    }
+  },
+  "terminal_states": [
+    "CROSS_REVIEW_REJECTED",
+    "HUMAN_REJECTED",
+    "READY_FOR_ACTION",
+    "BLOCKED_MISSING_FACTS",
+    "BLOCKED_SOURCE_UNAVAILABLE",
+    "BLOCKED_CALCULATION_MISMATCH",
+    "BLOCKED_UNMASKED_PII",
+    "BLOCKED_UNLAWFUL_REQUEST"
+  ],
+  "required_artifacts_by_state": {
+    "READY_FOR_DRAFT": ["case-packet.json"],
+    "DRAFTED": ["draft-opinion.json"],
+    "INDEPENDENTLY_REVIEWED": ["independent-review.json"],
+    "REVIEW_ISSUED": ["review-memo.json"],
+    "REVISION_REQUIRED": ["review-memo.json"],
+    "REVISED": ["draft-opinion.json", "response-matrix.json"],
+    "CROSS_REVIEW_APPROVED": ["final-disposition.json"],
+    "CROSS_REVIEW_CONDITIONAL": ["final-disposition.json"],
+    "CROSS_REVIEW_REJECTED": ["final-disposition.json"],
+    "HUMAN_JUDGMENT_REQUIRED": ["final-disposition.json"],
+    "HUMAN_REVIEW_REQUIRED": ["final-disposition.json"],
+    "HUMAN_APPROVED": ["human-approval.json"],
+    "HUMAN_REJECTED": ["human-approval.json"],
+    "MORE_INFO_REQUIRED": ["human-approval.json"],
+    "READY_FOR_ACTION": ["human-approval.json"]
+  },
+  "version_invalidated_artifacts": [
+    "draft-opinion.json",
+    "independent-review.json",
+    "review-memo.json",
+    "response-matrix.json",
+    "final-disposition.json",
+    "human-approval.json"
+  ],
+  "external_actions": {
+    "allowed_before_human_approval": false,
+    "approval_state": "HUMAN_APPROVED"
+  }
+}

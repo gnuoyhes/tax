@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "case_id": "CASE-ID",
+  "tax_point_date": "YYYY-MM-DD",
+  "tax_type": "gift_tax-or-inheritance_tax",
+  "currency": "KRW",
+  "amount_unit": "KRW",
+  "gross_assets": [],
+  "additions": [],
+  "liabilities": [],
+  "exclusions": [],
+  "deductions": [],
+  "adjustments": [],
+  "other_taxes": []
+}

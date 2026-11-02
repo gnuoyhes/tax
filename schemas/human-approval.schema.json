@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tax-agent.local/schemas/human-approval.schema.json",
+  "title": "HumanApproval",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "case_id",
+    "case_version",
+    "tax_date",
+    "review_date",
+    "authorized_reviewer_id",
+    "credential_verified",
+    "approval_scope",
+    "approved_at",
+    "conditions",
+    "decision",
+    "artifact_id"
+  ],
+  "properties": {
+    "case_id": {"type": "string", "minLength": 1},
+    "case_version": {"type": "integer", "minimum": 1},
+    "tax_date": {"type": "string", "format": "date"},
+    "review_date": {"type": "string", "format": "date"},
+    "authorized_reviewer_id": {"type": "string", "minLength": 1},
+    "credential_verified": {"type": "boolean", "const": true},
+    "approval_scope": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "approved_at": {"type": "string", "format": "date-time"},
+    "conditions": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "decision": {"type": "string", "enum": ["APPROVED", "REJECTED", "MORE_INFO_REQUIRED"]},
+    "artifact_id": {"type": "string", "minLength": 1}
+  }
+}

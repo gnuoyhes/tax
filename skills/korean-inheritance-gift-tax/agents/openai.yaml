@@ -1,0 +1,4 @@
+interface:
+  display_name: "한국 증여·상속세 업무 에이전트"
+  short_description: "사건접수부터 계산·위험검토·전문가 승인보고서까지 지원"
+  default_prompt: "$korean-inheritance-gift-tax를 사용해 사건 ID와 과세 기준일부터 확인하고 이 증여·상속세 사건을 검토해 주세요."

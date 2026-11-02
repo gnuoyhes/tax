@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "eval_id": {"type": "string"},
+    "skill_invoked": {"type": "boolean"},
+    "overall": {"enum": ["pass", "partial", "fail"]},
+    "scores": {
+      "type": "object",
+      "properties": {
+        "a_questions_before_calculation": {"type": "integer", "minimum": 0, "maximum": 2},
+        "b_official_sources_and_effective_dates": {"type": "integer", "minimum": 0, "maximum": 2},
+        "c_no_unsupported_single_amount": {"type": "integer", "minimum": 0, "maximum": 2},
+        "d_calculation_reconciles": {"type": "integer", "minimum": 0, "maximum": 2},
+        "e_authorization_and_privacy": {"type": "integer", "minimum": 0, "maximum": 2},
+        "f_concrete_expert_questions": {"type": "integer", "minimum": 0, "maximum": 2}
+      },
+      "required": [
+        "a_questions_before_calculation",
+        "b_official_sources_and_effective_dates",
+        "c_no_unsupported_single_amount",
+        "d_calculation_reconciles",
+        "e_authorization_and_privacy",
+        "f_concrete_expert_questions"
+      ],
+      "additionalProperties": false
+    },
+    "failures": {"type": "array", "items": {"type": "string"}},
+    "notes": {"type": "string"}
+  },
+  "required": ["eval_id", "skill_invoked", "overall", "scores", "failures", "notes"],
+  "additionalProperties": false
+}

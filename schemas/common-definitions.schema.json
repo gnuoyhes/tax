@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tax-agent.local/schemas/common-definitions.schema.json",
+  "title": "Tax Agent Common Definitions",
+  "type": "object",
+  "additionalProperties": false,
+  "$defs": {
+    "official_source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "title", "law", "article", "effective_date", "verified_at", "url", "excerpt", "content_hash", "snapshot_id"],
+      "properties": {
+        "source_id": {"type": "string", "minLength": 1},
+        "title": {"type": "string", "minLength": 1},
+        "law": {"type": "string", "minLength": 1},
+        "article": {"type": "string", "minLength": 1},
+        "effective_date": {"type": "string", "format": "date"},
+        "verified_at": {"type": "string", "format": "date-time"},
+        "url": {"type": "string", "format": "uri"},
+        "excerpt": {"type": "string", "minLength": 1},
+        "content_hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+        "snapshot_id": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

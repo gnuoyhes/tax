@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "parameter_set_id": "SOURCE-VERIFIED-PARAMETER-SET-ID",
+  "tax_type": "gift_tax-or-inheritance_tax",
+  "currency": "KRW",
+  "rate_schedule": {
+    "effective_from": "YYYY-MM-DD",
+    "effective_to": null,
+    "verified_on": "YYYY-MM-DD",
+    "source": {
+      "authority": "OFFICIAL-AUTHORITY",
+      "law_or_guidance": "LAW-OR-GUIDANCE-NAME",
+      "article": "ARTICLE",
+      "url": "https://OFFICIAL-URL"
+    },
+    "brackets": []
+  },
+  "deduction_rules": {},
+  "deduction_groups": {},
+  "adjustment_rules": {}
+}

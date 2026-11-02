@@ -1,0 +1,45 @@
+{
+  "id": "tax-reviewer",
+  "display_name": "증여·상속세 검수 세무사 AI",
+  "instructions_file": "agents/tax-reviewer/instructions.md",
+  "shared_skill": "skills/korean-inheritance-gift-tax/SKILL.md",
+  "reads": [],
+  "phase_reads": {
+    "BLIND_REVIEW": [
+      "case-packet.json"
+    ],
+    "COMPARISON_REVIEW": [
+      "case-packet.json",
+      "independent-review.json",
+      "draft-opinion.json"
+    ],
+    "FINAL_REVIEW": [
+      "case-packet.json",
+      "independent-review.json",
+      "draft-opinion.json",
+      "review-memo.json",
+      "response-matrix.json"
+    ]
+  },
+  "writes": [
+    "independent-review.json",
+    "review-memo.json",
+    "final-disposition.json"
+  ],
+  "output_schemas": [
+    "schemas/independent-review.schema.json",
+    "schemas/review-memo.schema.json",
+    "schemas/final-disposition.schema.json"
+  ],
+  "forbidden_actions": [
+    "file_tax_return",
+    "pay_tax",
+    "submit_document",
+    "sign_document",
+    "contact_third_party",
+    "execute_transaction",
+    "create_human_approval",
+    "write_workflow_state",
+    "edit_preparer_artifacts"
+  ]
+}

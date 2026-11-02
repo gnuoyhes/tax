@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tax-agent.local/schemas/review-memo.schema.json",
+  "title": "ReviewMemo",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "case_id",
+    "case_version",
+    "tax_date",
+    "review_date",
+    "findings"
+  ],
+  "properties": {
+    "case_id": {"type": "string", "minLength": 1},
+    "case_version": {"type": "integer", "minimum": 1},
+    "tax_date": {"type": "string", "format": "date"},
+    "review_date": {"type": "string", "format": "date"},
+    "findings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "review_id",
+          "severity",
+          "issue_type",
+          "preparer_position",
+          "reviewer_position",
+          "difference_cause",
+          "official_source",
+          "required_action"
+        ],
+        "properties": {
+          "review_id": {"type": "string", "pattern": "^R-[0-9]{3}$"},
+          "severity": {"type": "string", "enum": ["BLOCKER", "MAJOR", "MINOR", "NOTE"]},
+          "issue_type": {"type": "string", "minLength": 1},
+          "preparer_position": {"type": "string", "minLength": 1},
+          "reviewer_position": {"type": "string", "minLength": 1},
+          "difference_cause": {"type": "string", "enum": ["FACT", "LEGAL_INPUT", "ARITHMETIC", "INTERPRETATION", "PRESENTATION"]},
+          "official_source": {"$ref": "common-definitions.schema.json#/$defs/official_source"},
+          "required_action": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tax-agent.local/schemas/case-packet.schema.json",
+  "title": "CasePacket",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["case_id", "case_version", "tax_date", "review_date", "jurisdiction", "matter_type", "confirmed_facts", "user_statements", "assumptions", "unverified_items", "parties", "assets", "debts", "prior_transfers", "evidence_index", "pii_masking_status"],
+  "properties": {
+    "case_id": {"type": "string", "minLength": 1},
+    "case_version": {"type": "integer", "minimum": 1},
+    "tax_date": {"type": "string", "format": "date"},
+    "review_date": {"type": "string", "format": "date"},
+    "jurisdiction": {"type": "string", "const": "KR"},
+    "matter_type": {"type": "string", "enum": ["GIFT", "INHERITANCE"]},
+    "confirmed_facts": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "user_statements": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "assumptions": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "unverified_items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["item", "material_effect"],
+        "properties": {
+          "item": {"type": "string", "minLength": 1},
+          "material_effect": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "parties": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["party_id", "role", "relationship", "residency_status"],
+        "properties": {
+          "party_id": {"type": "string", "minLength": 1},
+          "role": {"type": "string", "enum": ["DONOR", "DONEE", "DECEDENT", "HEIR", "OTHER"]},
+          "relationship": {"type": "string", "minLength": 1},
+          "residency_status": {"type": "string", "enum": ["RESIDENT", "NON_RESIDENT", "UNVERIFIED"]}
+        }
+      }
+    },
+    "assets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["asset_id", "asset_type", "description", "amount_krw", "valuation_basis"],
+        "properties": {
+          "asset_id": {"type": "string", "minLength": 1},
+          "asset_type": {"type": "string", "minLength": 1},
+          "description": {"type": "string", "minLength": 1},
+          "amount_krw": {"type": "string", "pattern": "^[0-9]+$"},
+          "valuation_basis": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "debts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["debt_id", "description", "amount_krw", "evidence_ids"],
+        "properties": {
+          "debt_id": {"type": "string", "minLength": 1},
+          "description": {"type": "string", "minLength": 1},
+          "amount_krw": {"type": "string", "pattern": "^[0-9]+$"},
+          "evidence_ids": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}, "uniqueItems": true}
+        }
+      }
+    },
+    "prior_transfers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["transfer_id", "transfer_date", "amount_krw", "relationship", "evidence_ids"],
+        "properties": {
+          "transfer_id": {"type": "string", "minLength": 1},
+          "transfer_date": {"type": "string", "format": "date"},
+          "amount_krw": {"type": "string", "pattern": "^[0-9]+$"},
+          "relationship": {"type": "string", "minLength": 1},
+          "evidence_ids": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}, "uniqueItems": true}
+        }
+      }
+    },
+    "evidence_index": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["evidence_id", "document_type", "description", "masked", "content_hash"],
+        "properties": {
+          "evidence_id": {"type": "string", "minLength": 1},
+          "document_type": {"type": "string", "minLength": 1},
+          "description": {"type": "string", "minLength": 1},
+          "masked": {"type": "boolean", "const": true},
+          "content_hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+        }
+      }
+    },
+    "pii_masking_status": {"type": "string", "enum": ["MASKED", "REJECTED_UNMASKED"]}
+  }
+}

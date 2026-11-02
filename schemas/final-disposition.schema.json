@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tax-agent.local/schemas/final-disposition.schema.json",
+  "title": "FinalDisposition",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "case_id",
+    "case_version",
+    "tax_date",
+    "review_date",
+    "status",
+    "agreed_items",
+    "conditions",
+    "unresolved_items",
+    "human_review_required",
+    "human_review_reason",
+    "external_action_allowed",
+    "artifact_id"
+  ],
+  "properties": {
+    "case_id": {"type": "string", "minLength": 1},
+    "case_version": {"type": "integer", "minimum": 1},
+    "tax_date": {"type": "string", "format": "date"},
+    "review_date": {"type": "string", "format": "date"},
+    "status": {
+      "type": "string",
+      "enum": [
+        "CROSS_REVIEW_APPROVED",
+        "CROSS_REVIEW_CONDITIONAL",
+        "CROSS_REVIEW_REJECTED",
+        "HUMAN_JUDGMENT_REQUIRED"
+      ]
+    },
+    "agreed_items": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "conditions": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "unresolved_items": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "human_review_required": {"type": "boolean"},
+    "human_review_reason": {"type": "string", "minLength": 1},
+    "external_action_allowed": {"type": "boolean", "const": false},
+    "artifact_id": {"type": "string", "minLength": 1}
+  }
+}

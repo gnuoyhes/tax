@@ -1,0 +1,28 @@
+{
+  "id": "tax-preparer",
+  "display_name": "증여·상속세 담당 세무사 AI",
+  "instructions_file": "agents/tax-preparer/instructions.md",
+  "shared_skill": "skills/korean-inheritance-gift-tax/SKILL.md",
+  "reads": [
+    "case-packet.json",
+    "review-memo.json"
+  ],
+  "writes": [
+    "draft-opinion.json",
+    "response-matrix.json"
+  ],
+  "output_schemas": [
+    "schemas/draft-opinion.schema.json",
+    "schemas/response-matrix.schema.json"
+  ],
+  "forbidden_actions": [
+    "file_tax_return",
+    "pay_tax",
+    "submit_document",
+    "sign_document",
+    "contact_third_party",
+    "execute_transaction",
+    "create_human_approval",
+    "write_workflow_state"
+  ]
+}

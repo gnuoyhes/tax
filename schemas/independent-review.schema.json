@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tax-agent.local/schemas/independent-review.schema.json",
+  "title": "IndependentReview",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["case_id", "case_version", "tax_date", "review_date", "blind_review_completed", "draft_was_available", "independent_issues", "official_sources", "independent_calculation", "missing_evidence", "risk_flags"],
+  "properties": {
+    "case_id": {"type": "string", "minLength": 1},
+    "case_version": {"type": "integer", "minimum": 1},
+    "tax_date": {"type": "string", "format": "date"},
+    "review_date": {"type": "string", "format": "date"},
+    "blind_review_completed": {"type": "boolean", "const": true},
+    "draft_was_available": {"type": "boolean", "const": false},
+    "independent_issues": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["issue_id", "issue", "analysis", "certainty"],
+        "properties": {"issue_id": {"type": "string", "minLength": 1}, "issue": {"type": "string", "minLength": 1}, "analysis": {"type": "string", "minLength": 1}, "certainty": {"type": "string", "enum": ["CLEAR", "INTERPRETIVE", "UNRESOLVED"]}}
+      }
+    },
+    "official_sources": {"type": "array", "minItems": 1, "items": {"$ref": "common-definitions.schema.json#/$defs/official_source"}},
+    "independent_calculation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["method", "inputs", "formulas", "results", "comparison_status"],
+      "properties": {
+        "method": {"type": "string", "minLength": 1},
+        "inputs": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "formulas": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "results": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "comparison_status": {"type": "string", "enum": ["NOT_YET_COMPARED", "MATCH", "MISMATCH"]}
+      }
+    },
+    "missing_evidence": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "risk_flags": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["risk_id", "severity", "description", "human_review_required"], "properties": {"risk_id": {"type": "string", "minLength": 1}, "severity": {"type": "string", "enum": ["BLOCKER", "MAJOR", "MINOR", "NOTE"]}, "description": {"type": "string", "minLength": 1}, "human_review_required": {"type": "boolean"}}}}
+  }
+}

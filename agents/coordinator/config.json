@@ -1,0 +1,33 @@
+{
+  "id": "coordinator",
+  "display_name": "증여·상속세 사건 조정자",
+  "instructions_file": "agents/coordinator/instructions.md",
+  "shared_skill": "skills/korean-inheritance-gift-tax/SKILL.md",
+  "reads": [
+    "case-packet.json",
+    "draft-opinion.json",
+    "independent-review.json",
+    "review-memo.json",
+    "response-matrix.json",
+    "final-disposition.json",
+    "human-approval.json"
+  ],
+  "writes": [
+    "case-packet.json",
+    "workflow-state.json",
+    "final-report.md"
+  ],
+  "output_schemas": [
+    "schemas/case-packet.schema.json",
+    "schemas/final-disposition.schema.json"
+  ],
+  "forbidden_actions": [
+    "file_tax_return",
+    "pay_tax",
+    "submit_document",
+    "sign_document",
+    "contact_third_party",
+    "execute_transaction",
+    "create_human_approval"
+  ]
+}
